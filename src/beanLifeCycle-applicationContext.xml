@@ -7,14 +7,20 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd">
     
-    <!-- load the properties file: sport.properties -->
-	<context:property-placeholder location="classpath:sport.properties" />
-
 	<bean id="myFortuneService"
 		class="com.panupongdeve.springdemo.HappyFortuneService">
 	</bean>
 	
-
+	
+	<bean id="myCoach"
+		class="com.panupongdeve.springdemo.TrackCoach"
+		init-method="doMyStartupStuff"
+		destroy-method="doMyCleanupStuffYoYo">
+		<!-- set up constructor injection  -->
+		<constructor-arg ref="myFortuneService" />
+		
+	</bean>
+	
 	<!-- 
 	Add a logger config to see logging messages.		
 	- For more detailed logs, set values to "FINEST"
@@ -25,21 +31,6 @@
     	<property name="printedLoggerLevel" value="FINE"/>
     </bean>
 		
-	<bean id="myCricketCoach"
-		class="com.panupongdeve.springdemo.CricketCoach">
-		
-		<!-- set up setter injection  -->
-		<property name="fortuneService" ref="myFortuneService" />
-		
-		<!-- inject literal values -->
-		<!-- 
-			<property name="emailAddress" value="admin@panupoong.dev" />
-			<property name="team" value="seedCity"></property>
-		 -->
-		 
-		<!-- inject from properties file  -->
-		<property name="emailAddress" value="${foo.email}" />
-		<property name="team" value="${foo.team}"></property>
-	</bean>
+
 
 </beans>
